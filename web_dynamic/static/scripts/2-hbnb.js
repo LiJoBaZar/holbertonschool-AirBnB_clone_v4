@@ -1,26 +1,30 @@
-$(document).ready(function () => {
+$(document).ready(() => {
   let xCheck = [];
   let amenitiesName = [];
   $("input[type='checkbox']").change(function () {
-    if ($(this).is("checked") {
-      xCheck.push($(this).attr('data-id'));
-      amenitiesName.push($(this).attr('data-name'));
+    if (this.checked) {
+      xCheck.push($(this).attr("data-id"));
+      amenitiesName.push($(this).attr("data-name"));
+      $(".amenities h4").text(amenitiesName);
     }
     else {
-      let index = xCheck.indexOf($(this).attr('data-id'))
-      let indexId = amenitiesName.indexOf($(this).attr('data-name'));
-      xCheck.splice(indexId, 1);
+      let index = xCheck.indexOf($(this).attr("data-id"));
+      xCheck.splice(index, 1);
       amenitiesName.splice(index, 1);
+      if (amenitiesName.length > 0) {
+        $(".amenities h4").text(amenitiesName);
+      } else {
+        $(".amenities h4").html('&nbsp;');
+      }
     }
-    $('.amenities h4').text(amenitiesName.join(', '));
   });
-  $(function () {
-    $.get('http://localhost:5001/api/v1/status/', function (data, response) {
+
+$.get("http://127.0.0.1:5001/api/v1/status/", function(data, response)
+    {
       if (response === 200 || data.status === 'OK') {
         $('DIV#api_status').addClass('available');
       } else {
         $('DIV#api_status').removeClass('available');
       }
     });
-  })
 });
