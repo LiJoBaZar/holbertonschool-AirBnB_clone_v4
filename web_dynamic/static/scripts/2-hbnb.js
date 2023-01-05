@@ -19,12 +19,21 @@ $(document).ready(() => {
     }
   });
 
-$.get("http://127.0.0.1:5001/api/v1/status/", function(data, response)
+  $.ajax(
     {
-      if (response === 200 || data.status === 'OK') {
-        $('DIV#api_status').addClass('available');
-      } else {
+      url: 'http://0.0.0.0:5001/api/v1/status/',
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        if (response.status === 'OK') {
+          $('DIV#api_status').addClass('available');
+        } else {
+          $('DIV#api_status').removeClass('available');
+        }
+      },
+      error: function (error) {
         $('DIV#api_status').removeClass('available');
       }
-    });
+    }
+  )
 });
